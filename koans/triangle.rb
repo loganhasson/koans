@@ -13,13 +13,26 @@
 # and
 #   about_triangle_project_2.rb
 #
+
+# class TriangleError < RuntimeError
+# end
+
 def triangle(a, b, c)
-  if a == b && b == c
-    :equilateral
-  elsif a != b && a != c && b != c
-    :scalene
-  elsif (a == b && b != c) || (b == c && c != a) || (a == c && c != b)
-    :isosceles
+  begin
+    sides = [a,b,c]
+    ineq = [a+b > c, a+c > b, b+c >a]
+
+    if sides.min <= 0 || ineq.any? {|s| s == false}
+      raise TriangleError
+    end
+
+    if a == b && b == c
+      :equilateral
+    elsif a != b && a != c && b != c
+      :scalene
+    elsif (a == b && b != c) || (b == c && c != a) || (a == c && c != b)
+      :isosceles
+    end
   end
 end
 
