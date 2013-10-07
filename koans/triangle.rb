@@ -22,7 +22,7 @@ def triangle(a, b, c)
     sides = [a,b,c]
     ineq = [a+b > c, a+c > b, b+c >a]
 
-    if sides.min <= 0 || ineq.any? {|s| s == false}
+    if sides.min <= 0 || ineq.include?(false)
       raise TriangleError
     end
 
