@@ -13,12 +13,64 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # of the Proxy class is given in the AboutProxyObjectProject koan.
 
 class Proxy
+
+  attr_accessor :messages
+
   def initialize(target_object)
     @object = target_object
-    # ADD MORE CODE HERE
+    @on = false
+    @channel = nil
+    @messages = Hash.new(0)
   end
 
-  # WRITE CODE HERE
+  def method_missing(method_name, *args)
+    super(method_name)
+  end
+
+  def channel=(channel)
+    @messages[:channel=] += 1
+    @channel = channel
+  end
+
+  def channel
+    @channel
+  end
+
+  def messages
+    @messages.keys
+  end
+
+  def on?
+    @on
+  end
+
+  def number_of_times_called(method)
+    @messages[method]
+    # why doesn't this work: self.messages[method]? "Can't convert Symbol to Integer"
+  end
+
+  def called?(method)
+    self.messages.include?(method)
+  end
+
+  def upcase!
+    @messages[:upcase!] += 1
+    @object.upcase!
+  end
+
+  def split
+    @messages[:split] += 1
+    @object.split
+  end
+
+  def power
+    @messages[:power] += 1
+    if self.on?
+      @on = false
+    else
+      @on = true
+    end
+  end
 end
 
 # The proxy object should pass the following Koan:
